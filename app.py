@@ -19,6 +19,7 @@ import streamlit.components.v1 as components
 
 # #for resetting state
 session = SessionState.get(run_id=0)
+
  #Data Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -31,7 +32,6 @@ engine = create_engine('sqlite:///project_db.sqlite3')
 Session = sessionmaker(bind=engine)
 sess = Session()
 
- 
 model = pickle.load(open('RFmodel.pkl', 'rb'))
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
@@ -62,7 +62,7 @@ def Pageviews():
     return []
 
 def main():
-    st.set_page_config(page_title="Covid 19 Severity Detector App ⛑️", page_icon="mask.png", layout='wide', initial_sidebar_state='expanded')  
+    st.set_page_config(page_title="Covid 19 App ⛑️", page_icon="notebooks/mask.png", layout='wide', initial_sidebar_state='expanded')
 
     st.title("COVID-19 Help App 🖥️")
     st.markdown("""
@@ -242,6 +242,8 @@ def main():
                 </style>
                 """
         st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
+
         prediction_value = ['0' for i in range(18)]
         for sym in symptoms:
             index = symptoms_list.index(sym)
@@ -268,6 +270,7 @@ def main():
                 st.info('if you still have doubts , please contact your physician')
             
         st.write('\n\n\n')
+
 
         st.markdown('<p class="etitle">State Helpline Numbers 📞</p>', unsafe_allow_html=True)
         # st.title('State Helpline Numbers 💁🏻')
@@ -320,6 +323,7 @@ def main():
                 st.success(f'Thank you {name_i} for the feedback 🥰 !, We are trying our best to improve the application :) ')
             except Exception as e:
                 st.error('There seems to be some error 🤔 , please try again later :( ')
+                
     if option == 'CoWin Slot Checker':
 
         hide_streamlit_style = """
@@ -470,7 +474,13 @@ def main():
 
 
     if option == 'Analytics Dashboard':
-
+       hide_streamlit_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                </style>
+                """
+        st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
         st.markdown("<style> @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); </style>", unsafe_allow_html=True)
         st.markdown('<p class="etitle" style="font-size:30px">Analytics Dashboard 📈</p>', unsafe_allow_html=True)
         st.write("\n")
@@ -515,6 +525,8 @@ def main():
         st.write("\n")
         components.html(tableau_covid_brc , width=1600, height=800 )
 
+        
+
         st.markdown('<p class="etitle" style="font-size:25px">Forecasting Daily Vaccinations Using ARIMA Model 💉 </p>', unsafe_allow_html=True)
         st.write("\n")
         st.write("\n")
@@ -553,10 +565,6 @@ def main():
         plt.ylabel("Daily Vaccinations (in 10^6) ", color='white',size=15)
         st.plotly_chart(fig)
 
-    
-     
-
-                
                 
 if __name__=='__main__':
     main()
