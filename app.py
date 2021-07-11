@@ -20,18 +20,7 @@ import streamlit.components.v1 as components
 # #for resetting state
 session = SessionState.get(run_id=0)
 
- #Data Base
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-from feedback import UserAuth
-# from dotenv import load_dotenv
-# load_dotenv()
-
-engine = create_engine('sqlite:///project_db.sqlite3')
-#Connect to DB
-Session = sessionmaker(bind=engine)
-sess = Session()
-
+ 
 model = pickle.load(open('RFmodel.pkl', 'rb'))
 
 @st.cache(allow_output_mutation=True, suppress_st_warning=True)
@@ -62,32 +51,7 @@ def Pageviews():
     return []
 
 def main():
-    st.set_page_config(page_title="Covid 19 App ⛑️", page_icon="notebooks/mask.png", layout='wide', initial_sidebar_state='expanded')
-    
-    # Initialize connection.
-    client = pymongo.MongoClient("mongodb+srv://visakh:feedbackforms@feedback.0r8bu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
-    # Pull data from the collection.
-    # Uses st.cache to only rerun when the query changes or after 10 min.
-    @st.cache(ttl=600,show_spinner=False)
-    def get_data(): 
-        db = client.covidapp
-        items = db.feedback.find()
-        items = list(items)  # make hashable for st.cache
-        return items
-
-    def push_data(name,review,improve):
-        db = client.covidapp
-        post = {"name":name,
-                "review":review,
-                "improve":improve
-                }
-        db.feedback.insert_one(post)
-
-    def oauth(username,password):
-        query = sess.query(UserAuth).filter(UserAuth.username==username, UserAuth.password==password)
-        result = query.first()
-        return result
-    # END OF MONDO DB CODE  
+    st.set_page_config(page_title="Covid 19 App ⛑️", page_icon="mask.png", layout='wide', initial_sidebar_state='expanded')  
 
 
     st.title("COVID-19 Help App 🖥️")
@@ -238,7 +202,7 @@ def main():
     st.write('\n\n\n')
 
 
-    activities=['Detect Covid Severity','CoWin Slot Checker','Analytics Dashboard','Admin']
+    activities=['Detect Covid Severity','CoWin Slot Checker','Analytics Dashboard']
     option=st.sidebar.selectbox('Menu Navigation',activities)
     st.sidebar.write("\n")
     st.sidebar.title("About The Creators")
@@ -594,61 +558,8 @@ def main():
         plt.ylabel("Daily Vaccinations (in 10^6) ", color='white',size=15)
         st.plotly_chart(fig)
 
-    if option == 'Admin':
-      
-        caching.clear_cache()
-        
-        hide_streamlit_style = """
-                <style>
-                footer {visibility: hidden;}
-                </style>
-                """
-        
-        st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
-
-        st.error("Only Administrator Access Allowed")
-        st.subheader("Admin Login")
-        formlogin = st.form(key='my-form2')
-        username_i = formlogin.text_input('Enter UserName 👦: ')
-        password_i = formlogin.text_input('Enter Password :', type = "password")
-        login = formlogin.form_submit_button('Login') 
-
-        st.write("\n\n\n")
-
-        f=0
-        if login:
-            f =1
-        
-        result = oauth(username_i,password_i)
-
-        if login and username_i and password_i and result:
-            f=0
-            try:
-                feedbacks = get_data()
-                st.success("Feedbacks Recieved")
-                st.write('\n\n\n')
-                col1, col2,col3,col4 = st.beta_columns((1,1,3,3))
-                col1.subheader("ID")
-                col2.subheader("Name")
-                col3.subheader("Review")
-                col4.subheader("Improve")
-                # results = sess.query(UserInput).all()
-                q = 1
-                for feedback in feedbacks:
-                    col1.write(q)
-                    col1.write("\n")
-                    col2.write(feedback['name'])
-                    col2.write("\n")
-                    col3.write(feedback['review'])
-                    col3.write("\n")
-                    col4.write(feedback['improve']) 
-                    col4.write("\n")
-                    q = q+1
-            except Exception as e:
-                st.error('There seems to be some error 🤔 , please try again later :( ')
-        else:    
-            if f==1:
-                st.error('Wrong Username / Password !👽')
+    
+     
 
                 
                 
