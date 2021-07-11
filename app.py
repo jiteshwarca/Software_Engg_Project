@@ -65,6 +65,13 @@ def main():
     st.set_page_config(page_title="Covid 19 App ⛑️", page_icon="notebooks/mask.png", layout='wide', initial_sidebar_state='expanded')
 
     st.title("COVID-19 Help App 🖥️")
+    hide_streamlit_style = """
+                <style>
+                #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                </style>
+                """
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
     st.markdown("""
     <style>
     .etitle {
@@ -474,13 +481,7 @@ def main():
 
 
     if option == 'Analytics Dashboard':
-     hide_streamlit_style = """
-                <style>
-                #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                </style>
-                """
-     st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+     
         st.markdown("<style> @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); </style>", unsafe_allow_html=True)
         st.markdown('<p class="etitle" style="font-size:30px">Analytics Dashboard 📈</p>', unsafe_allow_html=True)
         st.write("\n")
