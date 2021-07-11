@@ -474,13 +474,13 @@ def main():
 
 
     if option == 'Analytics Dashboard':
-       hide_streamlit_style = """
+     hide_streamlit_style = """
                 <style>
                 #MainMenu {visibility: hidden;}
                 footer {visibility: hidden;}
                 </style>
                 """
-        st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+     st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
         st.markdown("<style> @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap'); </style>", unsafe_allow_html=True)
         st.markdown('<p class="etitle" style="font-size:30px">Analytics Dashboard 📈</p>', unsafe_allow_html=True)
         st.write("\n")
