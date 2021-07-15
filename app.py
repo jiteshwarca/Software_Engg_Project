@@ -230,7 +230,6 @@ def main():
         The app aims to provide a way to check if your symptoms are covid-like with our prediction model , 
         access state helpline numbers , check for available vaccination slots in your locality 
         or even check out the current trend of the pandemic in the analytics dashboard. 
-        We have also included a feedback form that you could fill out so we could improve upon the application even further !
         """
     )
 
