@@ -239,7 +239,7 @@ def main():
 
         st.markdown('<p class="etitle" style="font-size: 30px;">COVID-19 Severity Prediction Model 😷 </p>', unsafe_allow_html=True)
         st.write('\n')
-        st.subheader('Please Select The Applicable Properties: ✔️')
+        st.subheader('Please Select The Applicable Symptoms: ✔️')
         symptoms = st.multiselect('',[*symptoms_list],key='symptoms')
         
         hide_streamlit_style = """
